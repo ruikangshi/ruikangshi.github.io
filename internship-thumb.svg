@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="500" viewBox="0 0 800 500">
+  <rect width="800" height="500" fill="#1a1917"/>
+  <line x1="0" y1="100" x2="800" y2="100" stroke="#ffffff" stroke-width="0.5" stroke-opacity="0.07"/>
+  <line x1="0" y1="200" x2="800" y2="200" stroke="#ffffff" stroke-width="0.5" stroke-opacity="0.07"/>
+  <line x1="0" y1="300" x2="800" y2="300" stroke="#ffffff" stroke-width="0.5" stroke-opacity="0.07"/>
+  <line x1="0" y1="400" x2="800" y2="400" stroke="#ffffff" stroke-width="0.5" stroke-opacity="0.07"/>
+  <line x1="100" y1="0" x2="100" y2="500" stroke="#ffffff" stroke-width="0.5" stroke-opacity="0.07"/>
+  <line x1="200" y1="0" x2="200" y2="500" stroke="#ffffff" stroke-width="0.5" stroke-opacity="0.07"/>
+  <line x1="300" y1="0" x2="300" y2="500" stroke="#ffffff" stroke-width="0.5" stroke-opacity="0.07"/>
+  <line x1="400" y1="0" x2="400" y2="500" stroke="#ffffff" stroke-width="0.5" stroke-opacity="0.07"/>
+  <line x1="500" y1="0" x2="500" y2="500" stroke="#ffffff" stroke-width="0.5" stroke-opacity="0.07"/>
+  <line x1="600" y1="0" x2="600" y2="500" stroke="#ffffff" stroke-width="0.5" stroke-opacity="0.07"/>
+  <line x1="700" y1="0" x2="700" y2="500" stroke="#ffffff" stroke-width="0.5" stroke-opacity="0.07"/>
+  <rect x="0" y="0" width="6" height="500" fill="#c8602a"/>
+  <rect x="770" y="0" width="30" height="5" fill="#c8602a" opacity="0.6"/>
+  <rect x="795" y="0" width="5" height="30" fill="#c8602a" opacity="0.6"/>
+  <text x="400" y="218" text-anchor="middle" font-family="Georgia, serif" font-size="13" font-weight="400" letter-spacing="3" fill="#c8602a" opacity="0.9" text-transform="uppercase">EXPERIENCE</text>
+  <text x="400" y="278" text-anchor="middle" font-family="Georgia, serif" font-size="52" font-weight="400" font-style="italic" fill="#faf9f7">Internship</text>
+  <text x="400" y="318" text-anchor="middle" font-family="Georgia, serif" font-size="16" font-weight="300" letter-spacing="4" fill="#ffffff" opacity="0.3">TBD</text>
+</svg>

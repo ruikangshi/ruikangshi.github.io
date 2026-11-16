@@ -1,0 +1,1227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ruikang (Bobby) Shi — Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #faf9f7;
+      --ink: #1a1917;
+      --muted: #6b6860;
+      --accent: #c8602a;
+      --border: #e2e0db;
+      --card-bg: #ffffff;
+      --serif: 'DM Serif Display', Georgia, serif;
+      --sans: 'DM Sans', system-ui, sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: var(--sans);
+      font-weight: 300;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.25rem 3rem;
+      background: rgba(250,249,247,0.92);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+      transition: box-shadow .3s;
+    }
+    nav.scrolled { box-shadow: 0 2px 20px rgba(0,0,0,.06); }
+
+    .nav-name {
+      font-family: var(--serif);
+      font-size: 1.15rem;
+      letter-spacing: .01em;
+      color: var(--ink);
+      text-decoration: none;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2.5rem;
+      list-style: none;
+    }
+    .nav-links a {
+      font-size: .85rem;
+      font-weight: 400;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color .2s;
+    }
+    .nav-links a:hover { color: var(--ink); }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 0 3rem 6rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /*
+      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+      HERO BACKGROUND — HOW TO USE:
+
+      PHOTO:
+        Replace the <div class="hero-bg"> in the HTML with:
+        <img class="hero-media" src="your-photo.jpg" alt="" />
+
+      VIDEO (looping, muted, no controls):
+        Replace the <div class="hero-bg"> in the HTML with:
+        <video class="hero-media" autoplay muted loop playsinline>
+          <source src="your-video.mp4" type="video/mp4" />
+        </video>
+
+        For a GIF, just use an <img> tag pointing to your .gif file.
+
+      The .hero-overlay darkens the media so text stays readable.
+      Adjust the overlay opacity values below if needed.
+      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    */
+
+    /* Photo or video fills the hero */
+    .hero-media {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      z-index: 0;
+    }
+
+    /* Overlay so text stays readable — adjust rgba opacity to taste */
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        to bottom,
+        rgba(250,249,247,0.2) 0%,
+        rgba(250,249,247,0.5) 55%,
+        rgba(250,249,247,0.92) 100%
+      );
+      z-index: 1;
+    }
+
+    /* Fallback gradient when no media is set */
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      background:
+        radial-gradient(ellipse 60% 60% at 80% 30%, rgba(200,96,42,.07) 0%, transparent 70%),
+        radial-gradient(ellipse 40% 40% at 20% 70%, rgba(26,25,23,.04) 0%, transparent 60%);
+    }
+
+    /* Keep all text above the overlay */
+    .hero-eyebrow,
+    .hero-title,
+    .hero-sub,
+    .hero-ctas {
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero-eyebrow {
+      font-size: .8rem;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1rem;
+      opacity: 0;
+      animation: fadeUp .7s .2s forwards;
+    }
+
+    .hero-title {
+      font-family: var(--serif);
+      font-size: clamp(3.5rem, 9vw, 8rem);
+      line-height: 1.0;
+      letter-spacing: -.02em;
+      color: var(--ink);
+      opacity: 0;
+      animation: fadeUp .8s .35s forwards;
+    }
+    .hero-title em {
+      font-style: italic;
+      color: var(--accent);
+    }
+
+    .hero-sub {
+      margin-top: 1.5rem;
+      font-size: 1.1rem;
+      color: var(--muted);
+      max-width: 480px;
+      opacity: 0;
+      animation: fadeUp .7s .5s forwards;
+    }
+
+    .hero-ctas {
+      display: flex;
+      gap: 1rem;
+      margin-top: 2.5rem;
+      opacity: 0;
+      animation: fadeUp .7s .65s forwards;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: .75rem 1.75rem;
+      font-size: .85rem;
+      font-weight: 500;
+      letter-spacing: .05em;
+      text-transform: uppercase;
+      text-decoration: none;
+      border-radius: 2px;
+      transition: all .2s;
+      cursor: pointer;
+    }
+    .btn-primary {
+      background: var(--ink);
+      color: var(--bg);
+    }
+    .btn-primary:hover { background: var(--accent); }
+    .btn-ghost {
+      background: transparent;
+      color: var(--ink);
+      border: 1px solid var(--border);
+    }
+    .btn-ghost:hover { border-color: var(--ink); }
+
+    /* ── SECTION SHARED ── */
+    section { padding: 7rem 3rem; }
+    .section-label {
+      font-size: .75rem;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1rem;
+    }
+    .section-title {
+      font-family: var(--serif);
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      line-height: 1.1;
+      margin-bottom: 3.5rem;
+      max-width: 520px;
+    }
+
+    /* ── ABOUT ── */
+    #about { background: var(--ink); color: var(--bg); }
+    #about .section-label { color: var(--accent); }
+    #about .section-title { color: var(--bg); }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: start;
+    }
+
+    .about-photo-wrap { position: relative; }
+    .about-photo {
+      width: 100%;
+      aspect-ratio: 3/4;
+      object-fit: cover;
+      border-radius: 2px;
+      display: block;
+      background: #2a2926;
+    }
+    .about-photo-placeholder {
+      width: 100%;
+      aspect-ratio: 3/4;
+      background: #2a2926;
+      border-radius: 2px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #555;
+      font-size: .8rem;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+    }
+    .about-photo-accent {
+      position: absolute;
+      top: 1.5rem; left: 1.5rem;
+      width: 100%; height: 100%;
+      border: 1px solid var(--accent);
+      border-radius: 2px;
+      z-index: -1;
+    }
+
+    .about-text p {
+      color: rgba(250,249,247,.7);
+      font-size: 1rem;
+      line-height: 1.75;
+      margin-bottom: 1.25rem;
+    }
+
+    .skills-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .5rem;
+      margin-top: 2rem;
+    }
+    .skill-chip {
+      padding: .35rem .9rem;
+      border: 1px solid rgba(250,249,247,.2);
+      border-radius: 2px;
+      font-size: .75rem;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: rgba(250,249,247,.6);
+    }
+
+    /* ── HIGHLIGHTS / PROJECT CARDS ── */
+    #highlights { background: var(--bg); }
+
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: transform .3s, box-shadow .3s;
+    }
+    .card.visible { /* legacy class — no-op, animations.js handles reveal */ }
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 36px rgba(0,0,0,.08);
+    }
+
+    .card-img {
+      width: 100%;
+      aspect-ratio: 16/10;
+      object-fit: cover;
+      background: #e8e6e1;
+      display: block;
+    }
+
+    .card-img-placeholder {
+      width: 100%;
+      aspect-ratio: 16/10;
+      background: linear-gradient(135deg, #e8e6e1, #d4d1c8);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--muted);
+      font-size: .8rem;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+    }
+
+    .card-body { padding: 1.75rem; flex: 1; display: flex; flex-direction: column; }
+
+    .card-tag {
+      font-size: .7rem;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: .5rem;
+    }
+
+    .card-title {
+      font-family: var(--serif);
+      font-size: 1.4rem;
+      line-height: 1.2;
+      margin-bottom: .75rem;
+    }
+
+    .card-desc {
+      font-size: .9rem;
+      color: var(--muted);
+      margin-bottom: 1.25rem;
+      flex: 1;
+    }
+
+    .card-bullets {
+      list-style: none;
+      margin-bottom: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: .3rem;
+    }
+    .card-bullets li {
+      font-size: .82rem;
+      color: var(--muted);
+      padding-left: 1rem;
+      position: relative;
+    }
+    .card-bullets li::before {
+      content: '—';
+      position: absolute;
+      left: 0;
+      color: var(--accent);
+    }
+
+    .card-link {
+      font-size: .8rem;
+      font-weight: 500;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--ink);
+      text-decoration: none;
+      border-bottom: 1px solid var(--ink);
+      padding-bottom: 1px;
+      align-self: flex-start;
+      transition: color .2s, border-color .2s;
+    }
+    .card-link:hover { color: var(--accent); border-color: var(--accent); }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--ink);
+      color: rgba(250,249,247,.5);
+      padding: 2.5rem 3rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: .8rem;
+      letter-spacing: .05em;
+    }
+    .footer-name {
+      font-family: var(--serif);
+      color: var(--bg);
+      font-size: 1rem;
+    }
+    .footer-links { display: flex; gap: 2rem; }
+    .footer-links a {
+      color: rgba(250,249,247,.5);
+      text-decoration: none;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      font-size: .75rem;
+      transition: color .2s;
+    }
+    .footer-links a:hover { color: var(--bg); }
+
+    /* ── DIVIDER ── */
+    .divider {
+      width: 48px;
+      height: 1px;
+      background: var(--accent);
+      margin-bottom: 2rem;
+    }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(22px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── MOBILE ── */
+    @media (max-width: 768px) {
+      nav { padding: 1rem 1.5rem; }
+      .nav-links { gap: 1.5rem; }
+      .hero { padding: 0 1.5rem 4rem; }
+      section { padding: 5rem 1.5rem; }
+      .about-grid { grid-template-columns: 1fr; gap: 3rem; }
+      footer { flex-direction: column; gap: 1.5rem; text-align: center; }
+      .footer-links { justify-content: center; }
+    }
+    @media (max-width: 520px) {
+      .nav-links { display: none; }
+    }
+
+    /* ══ AUTOMOTIVE DETAILS ══ */
+
+    /* Tachometer tick marks — decorative horizontal rule replacement */
+    .divider {
+      width: 100%;
+      height: 20px;
+      margin: 3rem 0;
+      background: none;
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: 3px;
+    }
+    .divider::before {
+      content: '';
+      display: block;
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(to right, var(--accent), transparent);
+    }
+    /* tick marks like a rev counter */
+    .divider::after {
+      content: '';
+      display: block;
+      width: 60px;
+      height: 100%;
+      background-image:
+        repeating-linear-gradient(
+          to right,
+          var(--accent) 0px,
+          var(--accent) 1px,
+          transparent 1px,
+          transparent 5px
+        );
+      opacity: 0.35;
+    }
+
+    /* Spec-sheet style meta labels — like a car's technical data sheet */
+    .meta-label, .card-tag, .section-label, .hero-eyebrow, .project-tag {
+      font-variant-numeric: tabular-nums;
+      letter-spacing: 0.18em;
+    }
+    .meta-label::before, .card-tag::before {
+      content: '▸ ';
+      font-size: 0.6em;
+      opacity: 0.6;
+    }
+
+    /* Blueprint grid on hero background (layered under existing bg) */
+    .hero::before, .project-hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      background-image:
+        linear-gradient(rgba(200,96,42,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(200,96,42,0.04) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none;
+    }
+
+    /* Speed-stripe accent on nav — subtle left border flash */
+    nav::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0;
+      width: 100%;
+      height: 2px;
+      background: linear-gradient(
+        to right,
+        transparent 0%,
+        var(--accent) 20%,
+        var(--accent) 22%,
+        transparent 22%,
+        transparent 24%,
+        var(--accent) 24%,
+        var(--accent) 25%,
+        transparent 25%
+      );
+      opacity: 0.5;
+    }
+    nav { position: fixed; } /* ensure ::after is relative to nav */
+
+    /* Card hover — racing stripe on left edge */
+    .card {
+      border-left: 3px solid transparent;
+      transition: transform .3s, box-shadow .3s, border-color .3s;
+    }
+    .card:hover {
+      border-left-color: var(--accent);
+    }
+
+    /* Project meta bar — styled like an automotive spec sheet */
+    .project-meta {
+      background: linear-gradient(to right, rgba(200,96,42,0.03), transparent);
+      border-left: 3px solid var(--accent);
+      padding-left: 1.5rem;
+      border-radius: 0 2px 2px 0;
+    }
+
+    /* Footer — twin racing stripes */
+    footer {
+      position: relative;
+    }
+    footer::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: repeating-linear-gradient(
+        to right,
+        var(--accent) 0px,
+        var(--accent) 40px,
+        transparent 40px,
+        transparent 44px
+      );
+      opacity: 0.4;
+    }
+
+    /* About section skills — styled like part numbers */
+    .skill-chip {
+      font-family: 'Courier New', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+    }
+    .skill-chip::before {
+      content: '# ';
+      color: var(--accent);
+      opacity: 0.7;
+    }
+
+    /* Section title — subtle underline like a chassis rail */
+    .section-title::after {
+      content: '';
+      display: block;
+      width: 32px;
+      height: 2px;
+      background: var(--accent);
+      margin-top: 0.75rem;
+    }
+
+    /* Hero eyebrow — odometer-style */
+    .hero-eyebrow, .contact-eyebrow, .project-tag {
+      font-family: 'Courier New', monospace;
+    }
+
+
+    /* ══ ADDITIONAL AUTOMOTIVE DETAILS ══ */
+
+    /* Contour lines on hero — like a topographic/aero pressure map */
+    .hero::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      background-image:
+        radial-gradient(ellipse 80% 40% at 70% 40%, transparent 58%, rgba(200,96,42,0.04) 59%, transparent 60%),
+        radial-gradient(ellipse 80% 40% at 70% 40%, transparent 68%, rgba(200,96,42,0.03) 69%, transparent 70%),
+        radial-gradient(ellipse 80% 40% at 70% 40%, transparent 78%, rgba(200,96,42,0.025) 79%, transparent 80%);
+      pointer-events: none;
+    }
+
+    /* Odometer-style hero title — subtle tracking */
+    .hero-title {
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* Torque-curve underline on section headings */
+    .project-section h2 {
+      position: relative;
+      padding-bottom: 0.6rem;
+    }
+    .project-section h2::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0;
+      width: 100%;
+      height: 1px;
+      background: linear-gradient(
+        to right,
+        var(--accent) 0%,
+        var(--accent) 30%,
+        rgba(200,96,42,0.3) 60%,
+        transparent 100%
+      );
+    }
+
+    /* VIN-style serial number watermark on project hero */
+    .project-hero-content::before {
+      content: attr(data-vin);
+      position: absolute;
+      bottom: -2.5rem;
+      right: 0;
+      font-family: 'Courier New', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.25em;
+      color: rgba(250,249,247,0.08);
+      text-transform: uppercase;
+      pointer-events: none;
+      white-space: nowrap;
+    }
+
+    /* Dashed centerline on cards — like a road marking */
+    .cards-grid {
+      position: relative;
+    }
+
+    /* Card image overlay — subtle scan line effect on hover */
+    .card-img {
+      transition: filter 0.3s;
+    }
+    .card:hover .card-img {
+      filter: contrast(1.05) saturate(1.1);
+    }
+
+    /* Pit-board style card tags */
+    .card-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    /* Wheel bolt pattern — decorative dot ring as section opener */
+    .section-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .section-label::before {
+      content: '';
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      border: 1px solid var(--accent);
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    /* Aero fin detail on back-link */
+    .back-link::before {
+      content: '◂ ';
+      font-size: 0.7em;
+    }
+
+    /* Carbon fibre weave texture on dark about section */
+    #about {
+      background-image:
+        repeating-linear-gradient(
+          45deg,
+          rgba(255,255,255,0.012) 0px,
+          rgba(255,255,255,0.012) 1px,
+          transparent 1px,
+          transparent 8px
+        ),
+        repeating-linear-gradient(
+          -45deg,
+          rgba(255,255,255,0.012) 0px,
+          rgba(255,255,255,0.012) 1px,
+          transparent 1px,
+          transparent 8px
+        );
+    }
+
+    /* Brake caliper red dot — active nav indicator */
+    .nav-links a.active::after,
+    .nav-links a:hover::after {
+      content: '';
+      display: block;
+      width: 4px;
+      height: 4px;
+      background: var(--accent);
+      border-radius: 50%;
+      margin: 2px auto 0;
+    }
+    .nav-links a {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* Transmission gear pattern in footer background */
+    footer {
+      background-image:
+        radial-gradient(circle 1px at 20px 20px, rgba(255,255,255,0.04) 1px, transparent 0),
+        radial-gradient(circle 1px at 60px 20px, rgba(255,255,255,0.04) 1px, transparent 0),
+        radial-gradient(circle 1px at 40px 50px, rgba(255,255,255,0.04) 1px, transparent 0);
+      background-size: 80px 70px;
+    }
+
+    /* Suspension spring coil animation on btn-primary hover */
+    .btn-primary {
+      position: relative;
+      overflow: hidden;
+    }
+    .btn-primary::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(
+        90deg,
+        transparent,
+        transparent 4px,
+        rgba(255,255,255,0.04) 4px,
+        rgba(255,255,255,0.04) 5px
+      );
+      transform: translateX(-100%);
+      transition: transform 0.4s ease;
+    }
+    .btn-primary:hover::after {
+      transform: translateX(0);
+    }
+
+    /* Wind tunnel streaklines on project hero */
+    .project-hero::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      background-image:
+        repeating-linear-gradient(
+          175deg,
+          transparent 0px,
+          transparent 60px,
+          rgba(200,96,42,0.025) 60px,
+          rgba(200,96,42,0.025) 61px
+        );
+      pointer-events: none;
+    }
+
+    /* Availability box — like a racing entry form */
+    .availability {
+      font-family: inherit;
+      position: relative;
+    }
+    .availability::after {
+      content: 'ENTRY OPEN';
+      position: absolute;
+      top: 0.75rem;
+      right: 1rem;
+      font-family: 'Courier New', monospace;
+      font-size: 0.55rem;
+      letter-spacing: 0.2em;
+      color: var(--accent);
+      opacity: 0.6;
+      text-transform: uppercase;
+    }
+
+    /* Photo slot — aspect overlay like a camera viewfinder */
+    .photo-slot {
+      position: relative;
+    }
+    .photo-slot::before {
+      content: '';
+      position: absolute;
+      inset: 8px;
+      border: 1px solid rgba(200,96,42,0.2);
+      border-radius: 1px;
+      pointer-events: none;
+    }
+    .photo-slot::after {
+      content: '+';
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 1.2rem;
+      color: rgba(200,96,42,0.3);
+      font-weight: 300;
+    }
+
+    /* Pit lane speed stripe on contact hero */
+    .contact-hero::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; bottom: 0;
+      width: 4px;
+      background: repeating-linear-gradient(
+        to bottom,
+        var(--accent) 0px,
+        var(--accent) 20px,
+        transparent 20px,
+        transparent 30px
+      );
+      opacity: 0.4;
+      z-index: 1;
+    }
+
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav id="navbar">
+    <a href="index.html" class="nav-name">Ruikang (Bobby) Shi</a>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#education">Education</a></li>
+      <li><a href="#highlights">Work</a></li>
+      <li><a href="skills.html">Skills</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <!--
+    TO ADD A BACKGROUND PHOTO: replace <div class="hero-bg"></div> with:
+    <img class="hero-media" src="your-photo.jpg" alt="" />
+
+    TO ADD A LOOPING VIDEO or GIF: replace <div class="hero-bg"></div> with:
+    <video class="hero-media" autoplay muted loop playsinline>
+      <source src="your-video.mp4" type="video/mp4" />
+    </video>
+  -->
+  <section class="hero" id="home">
+    <img class="hero-media" src="Background.jpg" alt="" />
+  <!-- Currently widget -->
+  <div id="currently-widget" style="
+    position:absolute;top:7rem;right:3rem;z-index:3;
+    font-family:'Courier New',monospace;
+    text-align:right;
+    opacity:0;animation:fadeUp .6s 1.1s forwards;
+    pointer-events:none;
+  ">
+    <p style="font-size:.58rem;letter-spacing:.2em;color:var(--accent);margin-bottom:.3rem;text-transform:uppercase;">// Currently \\</p>
+    <p style="font-size:.72rem;color:rgba(26,25,23,0.55);letter-spacing:.06em;line-height:1.6;">
+      Outreach Lead + Internal Structures Engineer<br>
+      <span style="color:var(--accent);">Illini Solar Car</span> · Fall 2026<br>
+      <span style="opacity:.6;">Grainger College of Engineering</span>
+    </p>
+    <div style="margin-top:.4rem;display:flex;align-items:center;justify-content:flex-end;gap:.4rem;">
+      <span style="width:5px;height:5px;border-radius:50%;background:var(--accent);display:inline-block;animation:pulse-dot 2s infinite;"></span>
+      <span style="font-size:.58rem;letter-spacing:.12em;color:var(--accent);opacity:.7;">ACTIVE</span>
+    </div>
+  </div>
+  <style>
+    @keyframes pulse-dot {
+      0%,100%{opacity:1;transform:scale(1);}
+      50%{opacity:.4;transform:scale(1.4);}
+    }
+  </style>
+    <div class="hero-overlay"></div>
+    <p class="hero-eyebrow"><strong>Systems Engineering and Design · University of Illinois at Urbana-Champaign · Class of 2029</strong></p>
+    <h1 class="hero-title">Ruikang (Bobby)<br><em>Shi</em></h1>
+    <p class="hero-sub">Driven by a passion for automotive engineering — from aerodynamics and structures to the systems that make great cars move. Based in Chicago.</p>
+    <div style="display:flex;gap:2rem;margin-top:1rem;opacity:0;animation:fadeUp .6s .58s forwards;position:relative;z-index:2;"><span style="font-family:'Courier New',monospace;font-size:.65rem;color:var(--muted);letter-spacing:.12em;">0–100 KM/H &nbsp;·&nbsp; STRUCTURES</span><span style="font-family:'Courier New',monospace;font-size:.65rem;color:var(--muted);letter-spacing:.12em;">CHASSIS &nbsp;·&nbsp; POWERTRAIN</span><span style="font-family:'Courier New',monospace;font-size:.65rem;color:var(--muted);letter-spacing:.12em;">DYNAMICS &nbsp;·&nbsp; NVH</span></div>
+    <div class="hero-ctas">
+      <a href="#highlights" class="btn btn-primary">View My Work</a>
+      <a href="contact.html" class="btn btn-ghost">Get in Touch</a>
+    </div>
+
+  <!-- Decorative tachometer arc — automotive detail -->
+  <svg class="hero-tacho" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"
+       style="position:absolute;bottom:-20px;right:3rem;width:220px;height:220px;opacity:0.07;z-index:1;pointer-events:none;">
+    <!-- Outer arc -->
+    <path d="M 20 180 A 120 120 0 0 1 180 180" fill="none" stroke="#c8602a" stroke-width="1.5"/>
+    <!-- Tick marks like a rev counter -->
+    <line x1="20"  y1="180" x2="28"  y2="163" stroke="#c8602a" stroke-width="1"/>
+    <line x1="40"  y1="120" x2="50"  y2="107" stroke="#c8602a" stroke-width="1"/>
+    <line x1="72"  y1="72"  x2="83"  y2="62"  stroke="#c8602a" stroke-width="1"/>
+    <line x1="120" y1="40"  x2="130" y2="30"  stroke="#c8602a" stroke-width="1"/>
+    <line x1="165" y1="48"  x2="173" y2="36"  stroke="#c8602a" stroke-width="1"/>
+    <line x1="180" y1="180" x2="166" y2="172" stroke="#c8602a" stroke-width="1"/>
+    <!-- Redline zone (last section) -->
+    <path d="M 160 55 A 120 120 0 0 1 180 180" fill="none" stroke="#c8602a" stroke-width="3" opacity="0.6"/>
+    <!-- Needle hint -->
+    <line x1="100" y1="180" x2="48"  y2="80"  stroke="#c8602a" stroke-width="1" stroke-dasharray="2,4"/>
+    <!-- Center dot -->
+    <circle cx="100" cy="180" r="4" fill="#c8602a"/>
+    <!-- RPM label -->
+    <text x="100" y="155" text-anchor="middle" font-family="'Courier New', monospace" font-size="8" fill="#c8602a" letter-spacing="2">RPM × 1000</text>
+  </svg>
+  </section>
+
+
+  <!-- Stats / Awards row -->
+  <section id="stats" style="
+    background:var(--ink);
+    padding:3rem;
+    border-top:none;
+  ">
+    <div style="
+      display:grid;
+      grid-template-columns:repeat(4,1fr);
+      gap:0;
+      max-width:1100px;
+      margin:0 auto;
+    ">
+      <div class="stat-block" style="padding:1.5rem 2rem;border-right:1px solid rgba(250,249,247,.08);text-align:center;">
+        <p style="font-family:'Courier New',monospace;font-size:2.2rem;color:var(--accent);letter-spacing:-.02em;line-height:1;">3.94</p>
+        <p style="font-size:.68rem;letter-spacing:.16em;text-transform:uppercase;color:rgba(250,249,247,.4);margin-top:.5rem;font-family:'Courier New',monospace;">GPA</p>
+      </div>
+      <div class="stat-block" style="padding:1.5rem 2rem;border-right:1px solid rgba(250,249,247,.08);text-align:center;">
+        <p style="font-family:'Courier New',monospace;font-size:2.2rem;color:var(--accent);letter-spacing:-.02em;line-height:1;">4+</p>
+        <p style="font-size:.68rem;letter-spacing:.16em;text-transform:uppercase;color:rgba(250,249,247,.4);margin-top:.5rem;font-family:'Courier New',monospace;">Projects</p>
+      </div>
+      <div class="stat-block" style="padding:1.5rem 2rem;border-right:1px solid rgba(250,249,247,.08);text-align:center;">
+        <p style="font-family:'Courier New',monospace;font-size:2.2rem;color:var(--accent);letter-spacing:-.02em;line-height:1;">$3.5K+</p>
+        <p style="font-size:.68rem;letter-spacing:.16em;text-transform:uppercase;color:rgba(250,249,247,.4);margin-top:.5rem;font-family:'Courier New',monospace;">Revenue Generated</p>
+      </div>
+      <div class="stat-block" style="padding:1.5rem 2rem;text-align:center;">
+        <p style="font-family:'Courier New',monospace;font-size:2.2rem;color:var(--accent);letter-spacing:-.02em;line-height:1;">10+</p>
+        <p style="font-size:.68rem;letter-spacing:.16em;text-transform:uppercase;color:rgba(250,249,247,.4);margin-top:.5rem;font-family:'Courier New',monospace;">Team Members Led</p>
+      </div>
+    </div>
+    <!-- Awards row -->
+    <div style="
+      max-width:1100px;margin:0 auto;
+      margin-top:2.5rem;padding-top:2rem;
+      border-top:1px solid rgba(250,249,247,.08);
+      display:flex;flex-wrap:wrap;gap:1rem;align-items:center;justify-content:center;
+    ">
+      <p style="font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(250,249,247,.25);font-family:'Courier New',monospace;width:100%;text-align:center;margin-bottom:.25rem;">// Awards & Recognition</p>
+      <span class="award-chip">🏆 2X Seal of Biliteracy</span>
+      <span class="award-chip">📐 Tau Beta Pi - The Engineering Honor Society</span>
+      <span class="award-chip">🎓 Grainger College Dean's List — 2026</span>
+      <span class="award-chip">🏁 The Duke of Edinburgh’s International Award – Bronze</span>
+    </div>
+  </section>
+  <style>
+    .award-chip {
+      padding:.4rem 1rem;
+      border:1px solid rgba(200,96,42,.3);
+      border-radius:2px;
+      font-size:.75rem;
+      letter-spacing:.06em;
+      color:rgba(250,249,247,.55);
+      font-family:'DM Sans',sans-serif;
+      transition:border-color .2s,color .2s;
+      cursor:default;
+    }
+    .award-chip:hover {
+      border-color:var(--accent);
+      color:var(--accent);
+    }
+    @media(max-width:768px){
+      #stats > div:first-child { grid-template-columns:1fr 1fr !important; }
+      .stat-block { border-right:none !important; border-bottom:1px solid rgba(250,249,247,.08); }
+    }
+  </style>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <p class="section-label">Background</p>
+    <h2 class="section-title">About Me</h2>
+    <div class="divider"></div>
+    <div class="about-grid">
+      <div class="about-photo-wrap">
+        <div class="about-photo-placeholder">Your Photo</div>
+        <div class="about-photo-accent"></div>
+      </div>
+      <div class="about-text">
+        <p>Hi, I'm Ruikang (Bobby) Shi — a systems engineering student at the University of Illinois Urbana-Champaign, Grainger College, class of 2029. I'm drawn to the engineering behind automobiles: the structures that keep cars light and stiff, the systems that make them fast, and the details that make them feel alive.</p>
+        <p>I've had the opportunity to work across several domains — designing solar vehicle structures with Illini Solar Car, building a business from zero, and developing the kind of hands-on, systems-level thinking that automotive engineering demands.</p>
+        <p>Outside of engineering, I'm drawn to leadership, mentorship, and making things with my hands — from woodworking to circuits. I believe the best automotive engineers aren't just analysts; they're builders who understand why every gram and every millimeter matters.</p>
+        <div class="skills-row">
+          <span class="skill-chip">AutoCAD / Inventor</span>
+          <span class="skill-chip">FEA</span>
+          <span class="skill-chip">3D Printing</span>
+          <span class="skill-chip">Sheet Metal</span>
+          <span class="skill-chip">MATLAB</span>
+          <span class="skill-chip">Python</span>
+          <span class="skill-chip">Composites</span>
+          <span class="skill-chip">Siemens NX</span>
+        </div>
+
+        <!-- Automotive spec plate -->
+        <div style="margin-top:2rem;padding:1rem 1.25rem;border:1px solid rgba(250,249,247,.15);border-left:3px solid #c8602a;background:rgba(200,96,42,0.05);">
+          <p style="font-family:'Courier New',monospace;font-size:.65rem;letter-spacing:.18em;color:#c8602a;margin-bottom:.6rem;text-transform:uppercase;">// Spec Sheet</p>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:.4rem .75rem;">
+            <span style="font-family:'Courier New',monospace;font-size:.7rem;color:rgba(250,249,247,.4);">CLASS</span>
+            <span style="font-family:'Courier New',monospace;font-size:.7rem;color:rgba(250,249,247,.7);">Sys. Engineering</span>
+            <span style="font-family:'Courier New',monospace;font-size:.7rem;color:rgba(250,249,247,.4);">YEAR</span>
+            <span style="font-family:'Courier New',monospace;font-size:.7rem;color:rgba(250,249,247,.7);">Class of 2029</span>
+            <span style="font-family:'Courier New',monospace;font-size:.7rem;color:rgba(250,249,247,.4);">BASE</span>
+            <span style="font-family:'Courier New',monospace;font-size:.7rem;color:rgba(250,249,247,.7);">Chicago, IL</span>
+            <span style="font-family:'Courier New',monospace;font-size:.7rem;color:rgba(250,249,247,.4);">FOCUS</span>
+            <span style="font-family:'Courier New',monospace;font-size:.7rem;color:rgba(250,249,247,.7);">Automotive Systems</span>
+          </div>
+        </div>
+        <br>
+        <a href="SP2026 Ruikang (Bobby) Shi Resume.pdf" download class="btn btn-ghost" style="border-color:rgba(250,249,247,.3); color:var(--bg);">Download Resume</a>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- EDUCATION -->
+  <section id="education" style="background:#f5f3ef;padding:6rem 3rem;">
+    <p class="section-label">Academic Background</p>
+    <h2 class="section-title">Education</h2>
+    <div class="divider"></div>
+
+    <!-- Degree block -->
+    <div style="
+      max-width:860px;margin:0 auto;
+      display:grid;grid-template-columns:auto 1fr;gap:0;
+      border:1px solid var(--border);border-radius:3px;overflow:hidden;
+      background:white;
+    ">
+      <!-- Left accent bar -->
+      <div style="width:4px;background:var(--accent);"></div>
+      <div style="padding:2rem 2.5rem;">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:1rem;margin-bottom:1.25rem;">
+          <div>
+            <p style="font-size:.7rem;letter-spacing:.15em;text-transform:uppercase;color:var(--accent);font-family:'Courier New',monospace;margin-bottom:.4rem;">B.S. Systems Engineering and Design</p>
+            <h3 style="font-family:'DM Serif Display',serif;font-size:1.5rem;line-height:1.2;color:var(--ink);">University of Illinois<br>Urbana-Champaign</h3>
+            <p style="font-size:.85rem;color:var(--muted);margin-top:.3rem;">Grainger College of Engineering</p>
+          </div>
+          <div style="text-align:right;flex-shrink:0;">
+            <p style="font-family:'Courier New',monospace;font-size:.7rem;letter-spacing:.12em;color:var(--muted);margin-bottom:.3rem;">Expected Graduation</p>
+            <p style="font-family:'Courier New',monospace;font-size:1.1rem;color:var(--ink);">May 2029</p>
+            <p style="font-family:'Courier New',monospace;font-size:.8rem;color:var(--accent);margin-top:.25rem;">GPA: 3.94 / 4.0</p>
+          </div>
+        </div>
+
+        <!-- Coursework -->
+        <div style="border-top:1px solid var(--border);padding-top:1.25rem;">
+          <p style="font-size:.68rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);font-family:'Courier New',monospace;margin-bottom:.75rem;">// Relevant Coursework</p>
+          <div style="display:flex;flex-wrap:wrap;gap:.5rem;">
+            <span class="course-chip">Statics</span>
+            <span class="course-chip">Physics Mechanics &amp; Magnetism</span>
+            <span class="course-chip">Thermodynamics</span>
+            <span class="course-chip">Fluid Mechanics</span>
+            <span class="course-chip">Electrical Circuits</span>
+            <span class="course-chip">Manufacturing Processes</span>
+            <span class="course-chip">CAD &amp; Engineering Drawing</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Activities / orgs -->
+    <div style="max-width:860px;margin:1.5rem auto 0;display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
+      <div style="padding:1.25rem 1.5rem;border:1px solid var(--border);border-radius:3px;background:white;">
+        <p style="font-size:.65rem;letter-spacing:.15em;text-transform:uppercase;color:var(--accent);font-family:'Courier New',monospace;margin-bottom:.5rem;">// Organizations</p>
+        <ul style="list-style:none;display:flex;flex-direction:column;gap:.4rem;">
+          <li style="font-size:.88rem;color:var(--ink);padding-left:.9rem;position:relative;">
+            <span style="position:absolute;left:0;color:var(--accent);">▸</span>Illini Solar Car
+          </li>
+          <li style="font-size:.88rem;color:var(--ink);padding-left:.9rem;position:relative;">
+            <span style="position:absolute;left:0;color:var(--accent);">▸</span>Tau Beta Pi (Eng. Honor Society)
+          </li>
+          <li style="font-size:.88rem;color:var(--ink);padding-left:.9rem;position:relative;">
+            <span style="position:absolute;left:0;color:var(--accent);">▸</span>Illini Ski and Snowboard Club
+          </li>
+        </ul>
+      </div>
+      <div style="padding:1.25rem 1.5rem;border:1px solid var(--border);border-radius:3px;background:white;">
+        <p style="font-size:.65rem;letter-spacing:.15em;text-transform:uppercase;color:var(--accent);font-family:'Courier New',monospace;margin-bottom:.5rem;">// Languages</p>
+        <ul style="list-style:none;display:flex;flex-direction:column;gap:.4rem;">
+          <li style="font-size:.88rem;color:var(--ink);padding-left:.9rem;position:relative;">
+            <span style="position:absolute;left:0;color:var(--accent);">▸</span>English — Fluent
+          </li>
+          <li style="font-size:.88rem;color:var(--ink);padding-left:.9rem;position:relative;">
+            <span style="position:absolute;left:0;color:var(--accent);">▸</span>Mandarin Chinese — Fluent
+          </li>
+          <li style="font-size:.88rem;color:var(--ink);padding-left:.9rem;position:relative;">
+            <span style="position:absolute;left:0;color:var(--accent);">▸</span>French — Working Proficiency
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+  <style>
+    .course-chip {
+      padding:.3rem .8rem;
+      border:1px solid var(--border);
+      border-radius:2px;
+      font-size:.75rem;
+      color:var(--muted);
+      transition:border-color .2s,color .2s;
+      cursor:default;
+    }
+    .course-chip:hover { border-color:var(--accent); color:var(--accent); }
+    @media(max-width:600px){
+      #education > div:last-child { grid-template-columns:1fr !important; }
+    }
+  </style>
+
+  <!-- HIGHLIGHTS -->
+  <section id="highlights">
+    <p class="section-label">Selected Work</p>
+    <h2 class="section-title">Projects &amp; Experience</h2>
+    <div class="cards-grid" id="cards">
+
+      <div class="card">
+        <img class="card-img" src="ISC.jpg" alt="Project photo" />
+        <div class="card-body">
+          <p class="card-tag">Team Project · 2025-present</p>
+          <h3 class="card-title">Illini Solar Car</h3>
+          <p class="card-desc">Internal Structure Engineer leading the redesign of fairing door attachment mechanism for battery box and wheel compartments.</p>
+          <ul class="card-bullets">
+            <li>Component Redesign &amp; FEA Simulation</li>
+            <li>Rapid Prototyping &amp; 3D Printing</li>
+            <li>Composites &amp; Material Selection</li>
+          </ul>
+          <a href="illini-solar-car.html" class="card-link">Learn More →</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <img class="card-img" src="internship-thumb.svg" alt="Internship" />
+        <div class="card-body">
+          <p class="card-tag">Internship · Summer 2026</p>
+          <h3 class="card-title">Tsinghua University Emerging Transportation Solutions (ETS)</h3>
+          <p class="card-desc">Intern. Researching the area of autonomous vehicle drift controls for competition and improved safety during high speed turns.</p>
+          <ul class="card-bullets">
+            <li>Data Analysis</li>
+            <li>Virtual Simulation</li>
+            <li>Large-Scale Team Coordination</li>
+          </ul>
+          <a href="internship.html" class="card-link">Learn More →</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <img class="card-img" src="Shop.jpg" alt="Entrepreneurship" />
+        <div class="card-body">
+          <p class="card-tag">Entrepreneurship · 2020-present</p>
+          <h3 class="card-title">Independent Venture</h3>
+          <p class="card-desc">Created a Roblox 3D assets start-up. Leading diverse team of 10 staff members from around the world.</p>
+          <ul class="card-bullets">
+            <li>Generated more than $2,000 dollars in gross income</li>
+            <li>Client Relations &amp; Marketing</li>
+            <li>Teamwork &amp; Project Management</li>
+          </ul>
+          <a href="independent-venture.html" class="card-link">Learn More →</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <img class="card-img" src="study-abroad-thumb.svg" alt="Study Abroad" />
+        <div class="card-body">
+          <p class="card-tag">Study Abroad · TBD</p>
+          <h3 class="card-title">EPFL???</h3>
+          <p class="card-desc">Semester exchange at a partner university. A pivotal experience in cross-cultural work.</p>
+          <ul class="card-bullets">
+            <li>Cross-Cultural Collaboration</li>
+            <li>Factory Tours &amp; Site Visits</li>
+            <li>Invaluable Global Perspective</li>
+          </ul>
+          <a href="study-abroad.html" class="card-link">Learn More →</a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <span class="footer-name">Ruikang (Bobby) Shi</span>
+    <div class="footer-links">
+      <a href="#about">About</a>
+      <a href="#education">Education</a>
+      <a href="#highlights">Work</a>
+      <a href="skills.html">Skills</a>
+      <a href="contact.html">Contact</a>
+      <a href="SP2026 Ruikang (Bobby) Shi Resume.pdf">Resume</a>
+    </div>
+    <span>© 2026</span>
+  </footer>
+
+  <script>
+    /* smooth scroll for anchor links */
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', e => {
+        const target = document.querySelector(a.getAttribute('href'));
+        if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth' }); }
+      });
+    });
+  </script>
+  <script src="animations.js"></script>
+</body>
+</html>

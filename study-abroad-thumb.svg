@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="500" viewBox="0 0 800 500">
+  <rect width="800" height="500" fill="#f0ece4"/>
+  <!-- dot grid -->
+  <circle cx="80"  cy="80"  r="2" fill="#1a1917" opacity="0.1"/>
+  <circle cx="160" cy="80"  r="2" fill="#1a1917" opacity="0.1"/>
+  <circle cx="240" cy="80"  r="2" fill="#1a1917" opacity="0.1"/>
+  <circle cx="320" cy="80"  r="2" fill="#1a1917" opacity="0.1"/>
+  <circle cx="400" cy="80"  r="2" fill="#1a1917" opacity="0.1"/>
+  <circle cx="480" cy="80"  r="2" fill="#1a1917" opacity="0.1"/>
+  <circle cx="560" cy="80"  r="2" fill="#1a1917" opacity="0.1"/>
+  <circle cx="640" cy="80"  r="2" fill="#1a1917" opacity="0.1"/>
+  <circle cx="720" cy="80"  r="2" fill="#1a1917" opacity="0.1"/>
+  <circle cx="80"  cy="420" r="2" fill="#1a1917" opacity="0.1"/>
+  <circle cx="160" cy="420" r="2" fill="#1a1917" opacity="0.1"/>
+  <circle cx="240" cy="420" r="2" fill="#1a1917" opacity="0.1"/>
+  <circle cx="320" cy="420" r="2" fill="#1a1917" opacity="0.1"/>
+  <circle cx="400" cy="420" r="2" fill="#1a1917" opacity="0.1"/>
+  <circle cx="480" cy="420" r="2" fill="#1a1917" opacity="0.1"/>
+  <circle cx="560" cy="420" r="2" fill="#1a1917" opacity="0.1"/>
+  <circle cx="640" cy="420" r="2" fill="#1a1917" opacity="0.1"/>
+  <circle cx="720" cy="420" r="2" fill="#1a1917" opacity="0.1"/>
+  <circle cx="80"  cy="160" r="2" fill="#1a1917" opacity="0.1"/>
+  <circle cx="720" cy="160" r="2" fill="#1a1917" opacity="0.1"/>
+  <circle cx="80"  cy="340" r="2" fill="#1a1917" opacity="0.1"/>
+  <circle cx="720" cy="340" r="2" fill="#1a1917" opacity="0.1"/>
+  <!-- accent circles -->
+  <circle cx="400" cy="250" r="180" fill="none" stroke="#c8602a" stroke-width="1" stroke-opacity="0.25"/>
+  <circle cx="400" cy="250" r="130" fill="none" stroke="#c8602a" stroke-width="0.7" stroke-opacity="0.15"/>
+  <circle cx="400" cy="250" r="80"  fill="none" stroke="#c8602a" stroke-width="0.5" stroke-opacity="0.1"/>
+  <!-- corner accents -->
+  <rect x="0"   y="0"   width="30" height="5"  fill="#c8602a" opacity="0.5"/>
+  <rect x="0"   y="0"   width="5"  height="30" fill="#c8602a" opacity="0.5"/>
+  <rect x="770" y="495" width="30" height="5"  fill="#c8602a" opacity="0.3"/>
+  <rect x="795" y="470" width="5"  height="30" fill="#c8602a" opacity="0.3"/>
+  <text x="400" y="218" text-anchor="middle" font-family="Georgia, serif" font-size="13" font-weight="400" letter-spacing="3" fill="#c8602a" opacity="0.9">ACADEMIC</text>
+  <text x="400" y="278" text-anchor="middle" font-family="Georgia, serif" font-size="52" font-weight="400" font-style="italic" fill="#1a1917">Study Abroad</text>
+  <text x="400" y="318" text-anchor="middle" font-family="Georgia, serif" font-size="16" font-weight="300" letter-spacing="4" fill="#1a1917" opacity="0.3">TBD</text>
+</svg>
